@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node *next;
+    struct node *prev;
+};
+
+struct node *head = NULL, *tail = NULL;
+
+struct node *Create(int data) {
+    struct node *tmp = (struct node *)malloc(sizeof(struct node));
+    tmp->info = data;
+    tmp->next = NULL;
+    tmp->prev = NULL;
+
+    if (head == NULL) {
+        head = tail = tmp;
+    } else {
+        tmp->prev = tail;
+        tail->next = tmp;
+        tail = tmp;
+    }
+
+    return tmp;  // Returning the new node created
+}
+
+void DisplayForward() {
+    struct node *current = head;
+    printf("Linked List (Forward): ");
+    while (current != NULL) {
+        printf("%d ", current->info);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+int Search(int key) {
+    struct node *current = head;
+    int position = 1;
+
+    while (current != NULL) {
+        if (current->info == key) {
+            return position;
+        }
+
+        current = current->next;
+        position++;
+    }
+
+    return -1;  // Key not found
+}
+
+int main() {
+    // Creating 5 nodes
+    for (int i = 1; i <= 5; ++i) {
+        Create(i * 10);
+    }
+
+    // Displaying the double linked list in forward direction
+    DisplayForward();
+
+    // Asking the user for a key value
+    int key;
+    printf("Enter the key value to search: ");
+    scanf("%d", &key);
+
+    // Searching for the key in the double linked list
+    int position = Search(key);
+
+    // Displaying the result
+    if (position != -1) {
+        printf("Element found at position %d.\n", position);
+    } else {
+        printf("Element not found in the linked list.\n");
+    }
+
+    return 0;
+}
