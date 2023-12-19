@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node *link;
+};
+
+struct node *last = NULL, *q;
+
+struct node *Create(int data) {
+    struct node *tmp = (struct node *)malloc(sizeof(struct node));
+    tmp->info = data;
+
+    if (last == NULL) {
+        last = tmp;
+        tmp->link = last;
+    } else {
+        tmp->link = last->link;
+        last->link = tmp;
+        last = tmp;
+    }
+
+    return tmp;  // Returning the new node created
+}
+
+void Display(struct node *start, int nodesToDisplay) {
+    if (start == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    struct node *current = start;
+    printf("Linked List: ");
+    for (int i = 0; i < nodesToDisplay; ++i) {
+        printf("%d ", current->info);
+        current = current->link;
+    }
+    printf("\n");
+}
+
+void InsertAtFirst(int data) {
+    struct node *tmp = (struct node *)malloc(sizeof(struct node));
+    tmp->info = data;
+
+    if (last == NULL) {
+        last = tmp;
+        tmp->link = last;
+    } else {
+        tmp->link = last->link;
+        last->link = tmp;
+    }
+}
+
+int main() {
+    // Creating 10 nodes
+    for (int i = 1; i <= 10; ++i) {
+        Create(i * 10);
+    }
+
+    // Displaying the original circular linked list
+    printf("Original ");
+    Display(last->link, 10);
+
+    // Inserting an element at the first place
+    InsertAtFirst(5);
+
+    // Displaying the modified circular linked list
+    printf("After Insertion ");
+    Display(last->link, 11);
+
+    return 0;
+}
