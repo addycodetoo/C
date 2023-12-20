@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+int stack[5];
+int top =-1;
+void push(int data){
+    if(top==4){
+        printf("stack overflow");
+    }
+    else{
+        top++;
+        
+        stack[top]=data;
+        
+    }
+}
+void pop(){
+    if(top==-1){
+        printf("stack underflow");
+    }
+    else{
+    top--;
+}
+}
+void peek(){
+    printf("%d",stack[top]);
+    
+}
+void display(){
+    for(int i = top; i>=0; i--){
+        printf("%d",stack[i]);
+    }
+}
+
+int main() {
+    // Write C code here
+    push(5);
+    
+    push(4);
+    push(6);
+    push(8);
+    push(9);
+    
+    display();
+    pop();
+    display();
+}
