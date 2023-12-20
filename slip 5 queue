@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node* link;
+};
+
+struct node* front = NULL;
+struct node* rear = NULL;
+
+// Function to enqueue an element into the queue
+void enqueue(int val) {
+    struct node* temp = (struct node*)malloc(sizeof(struct node));
+    if (temp == NULL) {
+        printf("Queue overflow\n");
+        return;
+    }
+
+    temp->info = val;
+    temp->link = NULL;
+
+    if (front == NULL) {
+        front = rear = temp;
+    } else {
+        rear->link = temp;
+        rear = temp;
+    }
+}
+
+// Function to delete the element at a specific position (here, 7th position)
+void deleteElementAtPosition(int position) {
+    if (front == NULL) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    if (position == 1) {
+        struct node* temp = front;
+        front = front->link;
+        free(temp);
+        return;
+    }
+
+    struct node* current = front;
+    for (int i = 1; i < position - 1 && current != NULL; ++i) {
+        current = current->link;
+    }
+
+    if (current == NULL || current->link == NULL) {
+        printf("Position out of bounds\n");
+        return;
+    }
+
+    struct node* temp = current->link;
+    current->link = temp->link;
+    free(temp);
+}
+
+// Function to display the elements of the queue
+void displayQueue() {
+    struct node* ptr = front;
+
+    if (front == NULL) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    printf("Queue elements: ");
+    while (ptr != NULL) {
+        printf("%d ", ptr->info);
+        ptr = ptr->link;
+    }
+    printf("\n");
+}
+
+int main() {
+    // Enqueue 10 elements into the queue
+    for (int i = 1; i <= 10; ++i) {
+        enqueue(i * 10);
+    }
+
+    // Display the elements of the queue before deletion
+    printf("Before deletion:\n");
+    displayQueue();
+
+    // Delete the 7th element from the queue
+    int positionToDelete = 7;
+    deleteElementAtPosition(positionToDelete);
+
+    // Display the elements of the queue after deletion
+    printf("\nAfter deletion of element at position %d:\n", positionToDelete);
+    displayQueue();
+
+    return 0;
+}
